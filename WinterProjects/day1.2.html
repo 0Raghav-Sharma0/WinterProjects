@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Clock</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .clock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border: 10px solid #333;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .clock .dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .clock .hour,
+        .clock .minute,
+        .clock .second {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background-color: #333;
+            transform-origin: 50% 100%;
+            transition-timing-function: steps(1);
+            transition-duration: 0.5s;
+        }
+
+        .clock .hour {
+            width: 8px;
+            height: 70px;
+            background-color: #000;
+        }
+
+        .clock .minute {
+            width: 4px;
+            height: 90px;
+            background-color: #555;
+        }
+
+        .clock .second {
+            width: 2px;
+            height: 100px;
+            background-color: red;
+        }
+
+        /* This will show the clock dots (12, 3, 6, 9) */
+        .clock .dot-12 {
+            transform: translate(-50%, -50%) rotate(0deg) translateY(-130px);
+        }
+        .clock .dot-3 {
+            transform: translate(-50%, -50%) rotate(90deg) translateY(-130px);
+        }
+        .clock .dot-6 {
+            transform: translate(-50%, -50%) rotate(180deg) translateY(-130px);
+        }
+        .clock .dot-9 {
+            transform: translate(-50%, -50%) rotate(270deg) translateY(-130px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock">
+        <!-- Clock dots -->
+        <div class="dot dot-12"></div>
+        <div class="dot dot-3"></div>
+        <div class="dot dot-6"></div>
+        <div class="dot dot-9"></div>
+
+        <!-- Clock hands -->
+        <div class="hour" id="hour"></div>
+        <div class="minute" id="minute"></div>
+        <div class="second" id="second"></div>
+    </div>
+
+    <script>
+        // Function to update the clock hands based on the current time
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Calculate the rotation for each clock hand
+            const hourDeg = (hours % 12) * 30 + (minutes / 60) * 30; // Each hour is 30 degrees
+            const minuteDeg = minutes * 6; // Each minute is 6 degrees
+            const secondDeg = seconds * 6; // Each second is 6 degrees
+
+            // Set the rotation for the hands
+            document.getElementById('hour').style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+            document.getElementById('minute').style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+            document.getElementById('second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial clock update
+        updateClock();
+    </script>
+
+</body>
+</html>
